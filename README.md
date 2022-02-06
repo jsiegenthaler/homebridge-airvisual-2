@@ -9,6 +9,7 @@ It is based on from `homebridge-airvisual-2` with the following improvements:
 * All dependencies have ben updated to remove vuneralbilities
 * Added logic to infer also PM10 density based on AQI (free API plan only)
 * Improvements to logging
+* Versioning starts from 3.0.0
 
 ## Installation
 
