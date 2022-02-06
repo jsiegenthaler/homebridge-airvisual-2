@@ -1,0 +1,41 @@
+changes:
+
+Updated all dependencies
+Fixed logging bugs
+Change from deprecated Fetch to Axios http client
+Improved API error handling
+Added accessory Fault state when service is unavailable
+improved logging order of conditions
+HomeApp_
+Air Quality
+Nitrogen dioxide Density
+Ozone Density
+PM2.5 Density
+PM10 Density
+Sulphur dioxide Density
+Carbon monoxide Level
+Status Active Yes/No
+
+Automation triggered only on Air Quality
+
+Symbols:
+Poor & Inferior shows an alarm symbol on the accessory icon
+Excellent shows no symbol
+
+
+the current mech gts new data at every HomeKit GET request.
+This should be changed to:
+GET gets from local cache at any HomeKit rate
+Cache is refreshed via polling
+
+
+https://api.airvisual.com/v2/nearest_city?lat=47.47603062&lon=8.76791811&key=84e4db3f-e2d9-474e-a11e-0dc59ea774e0
+
+https://www.home-assistant.io/integrations/airvisual/#:~:text=%20AirVisual%20%201%20Using%20the%20AirVisual%20Cloud,latitude%20and%20longitude%2C%20the%20AirVisual%20integration...%20More%20
+The “Community” API key is limited to 10,000 calls per month. In order to accommodate using the same API key for multiple geographies, the airvisual integration will automatically “re-level” the time between API calls so as to not overrun the call limit.
+
+For example:
+
+One instance of the integration: API calls every 5 minutes
+Two instances of the integration: API calls every 10 minutes
+etc.

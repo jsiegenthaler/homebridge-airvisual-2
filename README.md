@@ -1,18 +1,20 @@
-# homebridge-airvisual-2
+# homebridge-airvisual-3
 
 Homebridge plugin for the AirVisual API which allows access to outdoor air quality, humidity, and temperature.
 
-It differs from `homebridge-airvisual` in the following ways:
+It is based on from `homebridge-airvisual-2` with the following improvements:
 
-* Data is fetched and stored on a fixed interval instead of making HTTP requests on demand.
-* Added logic to infer PM2.5 density based on AQI (free API plan only)
-* Updated to modern ES syntax (requires node 10.18 or newer)
+* API errors are properly trapped and logged
+* Deprecated dependencies are replaced (Fetch replaced by Axios)
+* All dependencies have ben updated to remove vuneralbilities
+* Added logic to infer also PM10 density based on AQI (free API plan only)
+* Improvements to logging
 
 ## Installation
 
 1. Install homebridge using the instructions at https://github.com/nfarina/homebridge#installation
-2. Install this plugin using: `npm install -g homebridge-airvisual-2`
-3. Register for an account and get an API key at https://www.airvisual.com/api
+2. Install this plugin using: `npm install -g homebridge-airvisual-3`
+3. Register for an account and get an API key at https://www.airvisual.com/api. NOTE: the API key expires 
 4. Update the Homebridge configuration file
 
 ## Configuration
@@ -29,9 +31,9 @@ Example config.json:
     "aqi_standard": "us",
     "latitude": ,
     "longitude": ,
-    "city": "",
-    "state": "",
-    "country": "",
+    "city": "London",
+    "state": "England",
+    "country": "UK",
     "ppb_units": ["no2", "o3", "so2"],
     "interval": 30,
   }
@@ -71,6 +73,8 @@ Alternatively, GPS coordinates (`latitude` and `longitude`) or a specific city (
 
   * Format will be shown as *City > State > Country*
 
+  * State is optional. If no state exists, it can be omitted from the config. Example: city=moscow, country=russia
+
 * If both `latitude`, `longitude` and `city`, `state`, `country` are specified; the GPS coordinates will be used.
 
 ## Units
@@ -96,9 +100,9 @@ Only `no2`, `o3`, and `so2` are supported for conversion.
 
 * By default the API is queried once every 30 minutes, which is half of AirVisual's station update frequency of once per hour.
 
-* AQI categories are mapped to HomeKit categories as follows. Note that HomeKit will show visual cues on the dashboard for categories "Inferior" and "Poor".
+* AQI categories are mapped to HomeKit categories as follows. Note that the Home app will show visual alert cues for categories "Inferior" and "Poor".
 
-  AQI     | AQI Category                   | HomeKit
+  AQI US  | AQI Category                   | HomeKit
   --------|--------------------------------|-----------
   0-50    | Good                           | Excellent
   51-100  | Moderate                       | Good
@@ -107,3 +111,10 @@ Only `no2`, `o3`, and `so2` are supported for conversion.
   201-300 | Very Unhealthy                 | Poor
   301-500 | Hazardous                      | Poor
 
+
+* If no AQI data can be obtained from AirVisual for any reason, then the accessory will be set to Status Active = No (visible in the Home app), and Status Fault = General Fault (can be viewed in Sortcuts)
+
+* Automations can be triggered from the Air Quiality level. You can trigger on Rises Above or Drops Below.
+
+## References
+This version of the AirVisual plugin was forked from https://github.com/qwtel/homebridge-airvisual-2
