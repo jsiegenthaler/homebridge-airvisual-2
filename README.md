@@ -89,7 +89,7 @@ Only `no2`, `o3`, and `so2` are supported for conversion.
 
 ## Miscellaneous
 
-* Homebridge supports multiple instances for accessories; the configuration entry can be duplicated for each location and/or sensor type desired.
+* Homebridge supports multiple instances for accessories; the configuration entry can be duplicated for other locations as desired.
 
 * This plugin supports additional characteristics for air quality sensors if a "Startup" or "Enterprise" API key from AirVisual is used.
 
