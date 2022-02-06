@@ -14,7 +14,7 @@ It is based on from `homebridge-airvisual-2` with the following improvements:
 
 1. Install homebridge using the instructions at https://github.com/nfarina/homebridge#installation
 2. Install this plugin using: `npm install -g homebridge-airvisual-3`
-3. Register for an account and get an API key at https://www.airvisual.com/api. NOTE: the API key expires in 348 days after creating it, so you need to renew about once a year
+3. Register for an account and get an API key at https://www.airvisual.com/api. NOTE: the API key expires in 348 days after creating it, so you need to renew the key about once a year
 4. Update the Homebridge configuration file
 
 ## Configuration
@@ -46,7 +46,7 @@ Field | Required | Default | Description
 :--- | :---: | :---: | :---
 `accessory` | yes | `AirVisual` | Must always be `AirVisual`
 `name` | yes | `AirVisual` | Can be specified by user
-`api_key` | yes | | Obtain from https://www.airvisual.com/api
+`api_key` | yes | | Obtain from https://www.airvisual.com/api. Valid for 348 days, after which it needs to be renewed.
 `sensor` | no | `air_quality` | Must be `air_quality`, `humidity`, or `temperature`
 `aqi_standard` | no | `us` | Only applicable if `sensor` is set to `air_quality`, must be `cn` (for China) or `us` (for United States) 
 `latitude` | no | | See [**Location**](#location) notes below
