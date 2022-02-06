@@ -94,12 +94,9 @@ class AirVisualAccessory {
       this.log.debug('Using specified GPS coordinates: %s°, %s°', this.latitude, this.longitude);
       this.mode = 'gps';
       this.serial = String(this.latitude.toFixed(3) + '°, ' + this.longitude.toFixed(3) + '°');
-    } else if (this.city && this.country) {
+    } else if (this.city && this.state && this.country) {
       this.log.debug('Using specified city: %s, %s, %s', this.city, this.state, this.country);
       this.mode = 'city';
-      // must allow for no state: moscow, russia
-      // https://www.iqair.com/new-zealand/auckland/auckland-city-centre
-      // https://www.iqair.com/russia/moscow
       this.serial = String(this.city + ', ' + this.state + ', ' + this.country);
     } else {
       this.log.debug('Using IP geolocation');
@@ -118,7 +115,7 @@ class AirVisualAccessory {
 //    this.servicePolling();
 		
     // start polling
-    this.log('Initiating polling at intervals of %s ms (%s m)', this.interval, Math.round(this.intervale / 1000 / 60));
+    this.log('Initiating polling at intervals of %s ms (%s min)', this.interval, Math.round(this.interval / 1000 / 60));
 		setInterval(this.servicePolling.bind(this),this.interval);    
 
     this.log.warn('Calling initial polling');
@@ -190,7 +187,7 @@ class AirVisualAccessory {
     if (data === undefined || data === null) {
       this.log.warn('Warning: no data received, disabling sensor');
 
-      // show sensore as not active and faulty when we have no data
+      // show sensore as not active and faulty when we have no data     
       this.sensorService
         .getCharacteristic(Characteristic.StatusActive)
         .updateValue(false);
@@ -364,18 +361,17 @@ class AirVisualAccessory {
         break;
     }
 
-    // set accessory to active
+    // set accessory to active and no gault
     this.sensorService
       .getCharacteristic(Characteristic.StatusActive)
       .updateValue(true);
 
-    // set accessory to no fault
     this.sensorService
       .getCharacteristic(Characteristic.StatusFault)
       .updateValue(Characteristic.StatusFault.NO_FAULT);
 
     this.currentConditions = conditions;
-    this.log.debug('getConditions: currentConditions', this.currentConditions);
+    //this.log.debug('getConditions: currentConditions', this.currentConditions);
     return conditions;
   }
 
@@ -624,6 +620,5 @@ module.exports = (homebridge) => {
   global.NODE_KV_STORAGE_DIR = homebridge.user.storagePath();
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
-  //homebridge.registerAccessory('homebridge-airvisual-3', 'AirVisual', AirVisualAccessory);
   homebridge.registerAccessory(pkgName, dispName, AirVisualAccessory);
 };
